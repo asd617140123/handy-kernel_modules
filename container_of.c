@@ -41,15 +41,16 @@ static void show_group(const char* msg, struct group *grp) {
 //
 // Module entry point
 //
+//tip 1.struct must be pointer so that can use -> symbol.
 static int __init co_init(void) {
 
     struct object *obj1, *obj2;
     int i;
 
     pr_info("co: init\n");
-
+    pr_info("param_count=%d\n",param_count);
     for (i = 0; i < param_count; ++i) {
-
+        //pr_info("eric i=%d\n",i);
         // Allocate object # 1
         obj1 = kmalloc(sizeof(struct object), GFP_KERNEL);
         if (!obj1) {
@@ -78,8 +79,10 @@ static int __init co_init(void) {
 
     if (param_idx >=0 && param_idx < param_count) {
         {
-            struct group *grp = &array_of_groups[param_idx];
-            show_group("index based", grp);
+            //struct group *grp = &array_of_groups[param_idx];
+            //show_group("index based", grp);
+            struct group *grp = container_of(&array_of_groups[param_idx].id,struct group,id);
+            pr_info("11111 = id = %d\n",grp->id);
         }
         {
             int *ptr_id = &array_of_groups[param_idx].id;
@@ -87,8 +90,17 @@ static int __init co_init(void) {
             show_group("container_of @ id", grp);
         }
         {
-            struct object **p = &array_of_groups[param_idx].obj1;
-            struct group *grp = container_of(p, struct group, obj1);
+            struct object *p = array_of_groups[param_idx].obj1;
+            pr_info("array_of_groups = %x\n",array_of_groups[param_idx].obj2);
+            pr_info("array_of_groups->name = %x\n",array_of_groups[param_idx].obj2->name);
+
+            pr_info("*p = %x\n",p);
+            struct object **pp = &array_of_groups[param_idx].obj2;
+            pr_info("**p = %x\n",pp);
+            //pr_info("%d\n",array_of_groups[param_idx].obj1->id);
+            //int *p = &array_of_groups[param_idx].obj1->id;
+            struct group *grp = container_of(pp, struct group, obj2);
+            pr_info("grp = %x\n",grp);
             show_group("container_of @ obj1", grp);
         }
     }

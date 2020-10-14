@@ -50,6 +50,8 @@ static int __init ll_init(void) {
     {
         int idx;
         struct object *obj;
+        //obj = create_node(idx);
+
         for (idx = 0; idx < COUNT; ++idx) {
             obj = create_node(idx);
             if (obj) {
@@ -76,7 +78,7 @@ static int __init ll_init(void) {
         int idx = 1;
         struct list_head *list_head;
         struct object *entry;
-
+        //list_for_each(需要取出的list變數,原始list位址)
         list_for_each(list_head, &object_list) {
             entry = list_entry(list_head, struct object, list);
             pr_info(" #%d: %s\n", idx, entry->name);
@@ -97,6 +99,8 @@ static int __init ll_init(void) {
         //       from the list.
         list_for_each_safe(list_head, list_tmp, &object_list) {
             entry = list_entry(list_head, struct object, list);
+            pr_info(" %s\n", entry->name);
+
             list_del(&entry->list);
             kfree(entry);
         }

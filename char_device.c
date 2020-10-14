@@ -118,4 +118,4 @@ module_exit(cd_exit);
 MODULE_VERSION("0.0.1");
 MODULE_DESCRIPTION("cd: A character device example");
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("aakbar5 <16612387+aakbar5@users.noreply.github.com>");
+//MODULE_AUTHOR("aakbar5 <16612387+aakbar5@users.noreply.github.com>");
